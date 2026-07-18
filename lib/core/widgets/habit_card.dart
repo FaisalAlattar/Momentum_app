@@ -21,8 +21,10 @@ class HabitCard extends StatelessWidget {
     final bool isCompleted = habit.isCompletedOn(selectedDate);
     final String progressText = '${habit.completedCount} / ${habit.durationDays}';
 
-    return Container(
-      width: double.infinity,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
@@ -84,23 +86,21 @@ class HabitCard extends StatelessWidget {
           ),
 
           // Completion Check Button
-          GestureDetector(
-            onTap: onTap,
-            child: Container(
-              width: 26,
-              height: 26,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: isCompleted ? colors.white : Colors.transparent,
-                border: Border.all(color: colors.white, width: 1.5),
-              ),
-              child: isCompleted
-                  ? Icon(Icons.check, color: colors.green, size: 16)
-                  : const SizedBox.shrink(),
+          Container(
+            width: 26,
+            height: 26,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: isCompleted ? colors.white : Colors.transparent,
+              border: Border.all(color: colors.white, width: 1.5),
             ),
+            child: isCompleted
+                ? Icon(Icons.check, color: colors.green, size: 16)
+                : const SizedBox.shrink(),
           ),
         ],
       ),
-    );
+    ),
+  );
   }
 }

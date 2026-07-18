@@ -78,8 +78,23 @@ class HomeView extends GetView<HomeController> {
                         padding: const EdgeInsets.only(bottom: 12.0),
                         child: Dismissible(
                           key: Key(item.id),
-                          direction: DismissDirection.endToStart,
+                          direction: item.isCompletedOn(controller.selectedDay.value)
+                              ? DismissDirection.endToStart
+                              : DismissDirection.horizontal,
                           background: Container(
+                            decoration: BoxDecoration(
+                              color: colors.green,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: const Icon(
+                              Icons.check_circle_outline,
+                              color: Colors.white,
+                              size: 32,
+                            ),
+                          ),
+                          secondaryBackground: Container(
                             decoration: BoxDecoration(
                               color: Colors.redAccent,
                               borderRadius: BorderRadius.circular(20),
@@ -93,11 +108,28 @@ class HomeView extends GetView<HomeController> {
                             ),
                           ),
                           confirmDismiss: (direction) async {
-                            return await _showDeleteDialog(
-                              context,
-                              colors,
-                              item.id,
-                            );
+                            if (direction == DismissDirection.endToStart) {
+                              return await _showDeleteDialog(
+                                context,
+                                colors,
+                                item.id,
+                              );
+                            } else {
+                              final bool confirm = await _showCompletionDialog(
+                                context,
+                                colors,
+                                item,
+                              );
+                              if (confirm) {
+                                final currentIndex = controller.habits.indexWhere(
+                                  (h) => h.id == item.id,
+                                );
+                                if (currentIndex != -1) {
+                                  controller.toggleHabit(currentIndex);
+                                }
+                              }
+                              return false; // Prevent removing from list
+                            }
                           },
                           child: HabitCard(
                             habit: item,
@@ -212,6 +244,129 @@ class HomeView extends GetView<HomeController> {
         ),
       );
     });
+  }
+
+  Future<bool> _showCompletionDialog(
+    BuildContext context,
+    AppColors colors,
+    Habit habit,
+  ) async {
+    final bool isCompleted = habit.isCompletedOn(controller.selectedDay.value);
+    final String actionText = isCompleted ? 'Mark as Incomplete' : 'Mark as Complete';
+    final String message = isCompleted 
+        ? 'Are you sure you want to mark this habit as incomplete?'
+        : 'Are you sure you want to mark this habit as complete?';
+
+    final result = await showGeneralDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'Dismiss',
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, animation, secondaryAnimation) => const SizedBox(),
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        return ScaleTransition(
+          scale: Tween<double>(begin: 0.8, end: 1.0).animate(
+            CurvedAnimation(parent: animation, curve: Curves.easeOutBack),
+          ),
+          child: FadeTransition(
+            opacity: animation,
+            child: AlertDialog(
+              backgroundColor: colors.surface,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              titlePadding: const EdgeInsets.all(24),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: 8,
+              ),
+              actionsPadding: const EdgeInsets.all(24),
+              title: Column(
+                children: [
+                  Icon(
+                    isCompleted ? Icons.undo : Icons.check_circle_outline,
+                    color: colors.lightBlue,
+                    size: 48,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    actionText,
+                    style: TextStyle(
+                      color: colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+              content: Text(
+                message,
+                style: TextStyle(
+                  color: colors.black.withValues(alpha: 0.7),
+                  fontSize: 16,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              actions: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => Navigator.pop(context, false),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            color: colors.surface,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: colors.lightBlue,
+                              width: 2,
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                              color: colors.lightBlue,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => Navigator.pop(context, true),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            color: colors.lightBlue,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          alignment: Alignment.center,
+                          child: const Text(
+                            'Confirm',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+    return result ?? false;
   }
 
   Future<bool> _showDeleteDialog(
