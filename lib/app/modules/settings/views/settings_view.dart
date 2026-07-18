@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/settings_controller.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../core/values/app_colors.dart';
 import '../../../routes/app_routes.dart';
 
@@ -40,15 +41,35 @@ class SettingsView extends GetView<SettingsController> {
                 // Profile Section
                 Row(
                   children: [
-                    CircleAvatar(
-                      radius: 40,
-                      backgroundColor: colors.black.withValues(alpha: 0.1),
-                      backgroundImage: user?.photoURL != null
-                          ? NetworkImage(user!.photoURL!)
-                          : null,
-                      child: user?.photoURL == null
-                          ? Icon(Icons.person, size: 40, color: colors.black)
-                          : null,
+                    Container(
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: colors.black.withValues(alpha: 0.1),
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: user?.photoURL != null
+                          ? CachedNetworkImage(
+                              imageUrl: user!.photoURL!,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => Center(
+                                child: SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: colors.black.withValues(alpha: 0.5),
+                                  ),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) => Icon(
+                                Icons.person,
+                                size: 40,
+                                color: colors.black,
+                              ),
+                            )
+                          : Icon(Icons.person, size: 40, color: colors.black),
                     ),
                     const SizedBox(width: 20),
                     Expanded(
