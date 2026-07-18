@@ -1,0 +1,37 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "momentum-fdb1e",
+          "appId": "1:79093040677:android:9aa66bbc8fc37a3c6221cc",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "momentum-fdb1e",
+          "configurations": {
+            "android": "1:79093040677:android:9aa66bbc8fc37a3c6221cc",
+            "ios": "1:79093040677:ios:12ccaac860cdbf8b6221cc",
+            "macos": "1:79093040677:ios:12ccaac860cdbf8b6221cc",
+            "web": "1:79093040677:web:3640ed040f21312a6221cc",
+            "windows": "1:79093040677:web:9d4e7c8d80a4569d6221cc"
+          }
+        }
+      }
+    }
+  },
+  "auth": {
+    "providers": {
+      "emailPassword": true,
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "Momentum App",
+        "supportEmail": "support@example.com"
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  }
+}
