@@ -10,3 +10,4 @@ class SettingsController extends GetxController {
     Get.offAllNamed(Routes.login);
   }
 }
+

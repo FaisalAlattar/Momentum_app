@@ -142,7 +142,7 @@ class SettingsView extends GetView<SettingsController> {
                         title: 'Statistics'.tr,
                         icon: Icons.bar_chart_outlined,
                         colors: colors,
-                        onTap: () {},
+                        onTap: () => Get.toNamed(Routes.statistics),
                       ),
                       const SizedBox(height: 16),
                       _buildSettingItem(
@@ -208,7 +208,7 @@ class SettingsView extends GetView<SettingsController> {
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
             child: Row(
               children: [
-                Icon(icon, color: color, size: 20 ),
+                Icon(icon, color: color, size: 20),
                 const SizedBox(width: 14),
                 Text(
                   title,
@@ -249,13 +249,22 @@ class SettingsView extends GetView<SettingsController> {
             opacity: animation,
             child: AlertDialog(
               backgroundColor: colors.surface,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
               titlePadding: const EdgeInsets.all(24),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: 8,
+              ),
               actionsPadding: const EdgeInsets.all(24),
               title: Column(
                 children: [
-                  const Icon(Icons.logout_rounded, color: Colors.redAccent, size: 48),
+                  const Icon(
+                    Icons.logout_rounded,
+                    color: Colors.redAccent,
+                    size: 48,
+                  ),
                   const SizedBox(height: 16),
                   Text(
                     'Log out'.tr,
@@ -287,7 +296,10 @@ class SettingsView extends GetView<SettingsController> {
                           decoration: BoxDecoration(
                             color: colors.surface,
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: colors.lightBlue, width: 2),
+                            border: Border.all(
+                              color: colors.lightBlue,
+                              width: 2,
+                            ),
                           ),
                           alignment: Alignment.center,
                           child: Text(

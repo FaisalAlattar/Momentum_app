@@ -8,14 +8,13 @@ import 'app/services/auth_service.dart';
 import 'app/services/firestore_service.dart';
 import 'app/routes/app_pages.dart';
 import 'core/localization/app_translations.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   Get.put(AuthService());
   Get.put(FirestoreService());
 
@@ -24,16 +23,18 @@ void main() async {
   final languageCode = prefs.getString('languageCode') ?? 'en';
   final countryCode = prefs.getString('countryCode') ?? 'US';
 
-  runApp(MomentumApp(
-    isDarkMode: isDarkMode,
-    locale: Locale(languageCode, countryCode),
-  ));
+  runApp(
+    MomentumApp(
+      isDarkMode: isDarkMode,
+      locale: Locale(languageCode, countryCode),
+    ),
+  );
 }
 
 class MomentumApp extends StatelessWidget {
   final bool isDarkMode;
   final Locale locale;
-  
+
   const MomentumApp({super.key, this.isDarkMode = false, required this.locale});
 
   @override
@@ -45,8 +46,12 @@ class MomentumApp extends StatelessWidget {
       translations: AppTranslations(),
       locale: locale,
       fallbackLocale: const Locale('en', 'US'),
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
+      theme: ThemeData.light().copyWith(
+        textTheme: GoogleFonts.aBeeZeeTextTheme(ThemeData.light().textTheme),
+      ),
+      darkTheme: ThemeData.dark().copyWith(
+        textTheme: GoogleFonts.aBeeZeeTextTheme(ThemeData.dark().textTheme),
+      ),
       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
       debugShowCheckedModeBanner: false,
     );

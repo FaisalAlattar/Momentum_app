@@ -14,6 +14,7 @@ class AppTranslations extends Translations {
           'Language': 'Language',
           'About': 'About',
           'Log out': 'Log out',
+          'Habit Completion': 'Habit Completion',
         },
         'ar_SA': {
           'Habits': 'العادات',
@@ -26,6 +27,7 @@ class AppTranslations extends Translations {
           'Language': 'اللغة',
           'About': 'حول',
           'Log out': 'تسجيل الخروج',
+          'Habit Completion': 'إكمال العادات',
         },
       };
 }

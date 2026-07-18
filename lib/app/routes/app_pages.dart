@@ -16,6 +16,8 @@ import '../modules/language/bindings/language_binding.dart';
 import '../modules/language/views/language_view.dart';
 import '../modules/main/bindings/main_binding.dart';
 import '../modules/main/views/main_view.dart';
+import '../modules/statistics/bindings/statistics_binding.dart';
+import '../modules/statistics/views/statistics_view.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -63,6 +65,11 @@ class AppPages {
       name: Routes.main,
       page: () => const MainView(),
       binding: MainBinding(),
+    ),
+    GetPage(
+      name: Routes.statistics,
+      page: () => const StatisticsView(),
+      binding: StatisticsBinding(),
     ),
     // TODO: Register other pages here once views and bindings/controllers are implemented.
   ];

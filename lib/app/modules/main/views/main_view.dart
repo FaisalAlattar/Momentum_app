@@ -41,7 +41,7 @@ class MainView extends GetView<MainController> {
             ? _buildFloatingActionButton(colors)
             : const SizedBox.shrink(),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
@@ -52,40 +52,40 @@ class MainView extends GetView<MainController> {
       shadowColor: colors.pureBlack,
       elevation: 8,
       shape: const CircularNotchedRectangle(),
-      notchMargin: 10,
+      notchMargin: 0,
       clipBehavior: Clip.antiAlias,
       padding: EdgeInsets.zero,
       child: SizedBox(
         height: 70,
         child: Obx(
-            () => Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.settings_outlined,
-                    color: controller.currentIndex.value == 1
-                        ? colors.lightBlue
-                        : colors.textSecondary,
-                    size: 28,
-                  ),
-                  onPressed: () => controller.changePage(1),
+          () => Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                icon: Icon(
+                  Icons.settings_outlined,
+                  color: controller.currentIndex.value == 1
+                      ? colors.lightBlue
+                      : colors.textSecondary,
+                  size: 28,
                 ),
-                const SizedBox(width: 48), // Space for FAB
-                IconButton(
-                  icon: Icon(
-                    Icons.home_filled,
-                    color: controller.currentIndex.value == 0
-                        ? colors.lightBlue
-                        : colors.textSecondary,
-                    size: 28,
-                  ),
-                  onPressed: () => controller.changePage(0),
+                onPressed: () => controller.changePage(1),
+              ),
+              const SizedBox(width: 48), // Space for FAB
+              IconButton(
+                icon: Icon(
+                  Icons.home_filled,
+                  color: controller.currentIndex.value == 0
+                      ? colors.lightBlue
+                      : colors.textSecondary,
+                  size: 28,
                 ),
-              ],
-            ),
+                onPressed: () => controller.changePage(0),
+              ),
+            ],
           ),
         ),
+      ),
     );
   }
 

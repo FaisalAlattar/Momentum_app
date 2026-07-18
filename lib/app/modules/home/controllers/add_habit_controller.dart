@@ -24,12 +24,14 @@ class AddHabitController extends GetxController {
   ];
 
   final List<Color> availableColors = [
-    const Color(0xFF14B8A6), // Teal
     const Color(0xFFF59E0B), // Amber
     const Color(0xFFF43F5E), // Rose
     const Color(0xFF8B5CF6), // Purple
     const Color(0xFFEC4899), // Pink
-    // yellow
+    const Color(0xFF3B82F6), // Blue
+    const Color(0xFF06B6D4), // Cyan
+    const Color(0xFFEA580C), // Orange
+    const Color(0xFF64748B), // Slate
   ];
 
   @override

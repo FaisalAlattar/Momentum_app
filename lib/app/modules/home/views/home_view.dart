@@ -7,6 +7,7 @@ import '../controllers/home_controller.dart';
 import '../../../../core/values/app_colors.dart';
 import '../../../../core/widgets/habit_card.dart';
 import '../../../data/models/habit.dart';
+import '../../../routes/app_routes.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -21,16 +22,20 @@ class HomeView extends GetView<HomeController> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.bar_chart_outlined, color: colors.black),
+          onPressed: () => Get.toNamed(Routes.statistics),
+        ),
         title: Text(
           'Habits'.tr,
           style: TextStyle(
             color: colors.black,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.2,
-            fontSize: 24,
+            fontSize: 16,
           ),
         ),
-        centerTitle: false,
+        centerTitle: true,
       ),
       body: Column(
         children: [
@@ -81,10 +86,18 @@ class HomeView extends GetView<HomeController> {
                             ),
                             alignment: Alignment.centerRight,
                             padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: const Icon(Icons.delete_outline, color: Colors.white, size: 32),
+                            child: const Icon(
+                              Icons.delete_outline,
+                              color: Colors.white,
+                              size: 32,
+                            ),
                           ),
                           confirmDismiss: (direction) async {
-                            return await _showDeleteDialog(context, colors, item.id);
+                            return await _showDeleteDialog(
+                              context,
+                              colors,
+                              item.id,
+                            );
                           },
                           child: HabitCard(
                             habit: item,
@@ -201,7 +214,11 @@ class HomeView extends GetView<HomeController> {
     });
   }
 
-  Future<bool> _showDeleteDialog(BuildContext context, AppColors colors, String habitId) async {
+  Future<bool> _showDeleteDialog(
+    BuildContext context,
+    AppColors colors,
+    String habitId,
+  ) async {
     final result = await showGeneralDialog<bool>(
       context: context,
       barrierDismissible: true,
@@ -217,13 +234,22 @@ class HomeView extends GetView<HomeController> {
             opacity: animation,
             child: AlertDialog(
               backgroundColor: colors.surface,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
               titlePadding: const EdgeInsets.all(24),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: 8,
+              ),
               actionsPadding: const EdgeInsets.all(24),
               title: Column(
                 children: [
-                  const Icon(Icons.delete_outline, color: Colors.redAccent, size: 48),
+                  const Icon(
+                    Icons.delete_outline,
+                    color: Colors.redAccent,
+                    size: 48,
+                  ),
                   const SizedBox(height: 16),
                   Text(
                     'Delete Habit',
@@ -255,7 +281,10 @@ class HomeView extends GetView<HomeController> {
                           decoration: BoxDecoration(
                             color: colors.surface,
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: colors.lightBlue, width: 2),
+                            border: Border.all(
+                              color: colors.lightBlue,
+                              width: 2,
+                            ),
                           ),
                           alignment: Alignment.center,
                           child: Text(
