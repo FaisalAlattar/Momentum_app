@@ -78,7 +78,8 @@ class HomeView extends GetView<HomeController> {
                         padding: const EdgeInsets.only(bottom: 12.0),
                         child: Dismissible(
                           key: Key(item.id),
-                          direction: item.isCompletedOn(controller.selectedDay.value)
+                          direction:
+                              item.isCompletedOn(controller.selectedDay.value)
                               ? DismissDirection.endToStart
                               : DismissDirection.horizontal,
                           background: Container(
@@ -109,10 +110,11 @@ class HomeView extends GetView<HomeController> {
                           ),
                           confirmDismiss: (direction) async {
                             if (direction == DismissDirection.endToStart) {
-                              return await _showDeleteDialog(
+                              return await showDeleteDialog(
                                 context,
                                 colors,
                                 item.id,
+                                controller,
                               );
                             } else {
                               final bool confirm = await _showCompletionDialog(
@@ -121,9 +123,8 @@ class HomeView extends GetView<HomeController> {
                                 item,
                               );
                               if (confirm) {
-                                final currentIndex = controller.habits.indexWhere(
-                                  (h) => h.id == item.id,
-                                );
+                                final currentIndex = controller.habits
+                                    .indexWhere((h) => h.id == item.id);
                                 if (currentIndex != -1) {
                                   controller.toggleHabit(currentIndex);
                                 }
@@ -252,8 +253,10 @@ class HomeView extends GetView<HomeController> {
     Habit habit,
   ) async {
     final bool isCompleted = habit.isCompletedOn(controller.selectedDay.value);
-    final String actionText = isCompleted ? 'Mark as Incomplete' : 'Mark as Complete';
-    final String message = isCompleted 
+    final String actionText = isCompleted
+        ? 'Mark as Incomplete'
+        : 'Mark as Complete';
+    final String message = isCompleted
         ? 'Are you sure you want to mark this habit as incomplete?'
         : 'Are you sure you want to mark this habit as complete?';
 
@@ -369,10 +372,11 @@ class HomeView extends GetView<HomeController> {
     return result ?? false;
   }
 
-  Future<bool> _showDeleteDialog(
+  static Future<bool> showDeleteDialog(
     BuildContext context,
     AppColors colors,
     String habitId,
+    HomeController controller,
   ) async {
     final result = await showGeneralDialog<bool>(
       context: context,
