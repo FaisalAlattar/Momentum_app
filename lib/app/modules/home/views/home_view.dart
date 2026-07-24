@@ -382,7 +382,7 @@ class HomeView extends GetView<HomeController> {
       context: context,
       barrierDismissible: true,
       barrierLabel: 'Dismiss',
-      transitionDuration: const Duration(milliseconds: 300),
+      transitionDuration: const Duration(milliseconds: 150),
       pageBuilder: (context, animation, secondaryAnimation) => const SizedBox(),
       transitionBuilder: (context, animation, secondaryAnimation, child) {
         return ScaleTransition(
@@ -460,11 +460,9 @@ class HomeView extends GetView<HomeController> {
                     const SizedBox(width: 16),
                     Expanded(
                       child: GestureDetector(
-                        onTap: () async {
-                          final success = await controller.deleteHabit(habitId);
-                          if (context.mounted) {
-                            Navigator.pop(context, success);
-                          }
+                        onTap: () {
+                          Navigator.pop(context, true);
+                          controller.deleteHabit(habitId);
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 12),

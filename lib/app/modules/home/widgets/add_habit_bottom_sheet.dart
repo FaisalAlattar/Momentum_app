@@ -14,88 +14,106 @@ class AddHabitBottomSheet extends StatelessWidget {
     // Initialize controller for this bottom sheet instance
     final controller = Get.put(AddHabitController());
 
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.65,
-      decoration: BoxDecoration(
-        color: colors.surface,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(32),
-          topRight: Radius.circular(32),
-        ),
-      ),
-      child: Column(
-        children: [
-          _buildDragHandle(colors),
-          Expanded(
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.only(
-                      left: 24.0,
-                      right: 24.0,
-                      top: 8.0,
-                      bottom: 80.0,
-                    ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'New Habit',
-                    style: TextStyle(
-                      color: colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-
-                  // 1. Habit Name
-                  _buildSectionTitle('Habit Name', colors),
-                  const SizedBox(height: 6),
-                  _buildNameInput(controller, colors),
-                  const SizedBox(height: 16),
-
-                  // 2. Start Date
-                  _buildSectionTitle('Start Date', colors),
-                  const SizedBox(height: 6),
-                  _buildStartDateSelection(controller, context, colors),
-                  const SizedBox(height: 16),
-
-                  // 3. Goal Duration
-                  _buildSectionTitle('Goal Duration', colors),
-                  const SizedBox(height: 6),
-                  _buildDurationSelection(controller, colors),
-                  const SizedBox(height: 16),
-
-                  // 3. Habit Icon
-                  _buildSectionTitle('Icon', colors),
-                  const SizedBox(height: 6),
-                  _buildIconSelection(controller, colors),
-                  const SizedBox(height: 16),
-
-                  // 4. Habit Color
-                  _buildSectionTitle('Color', colors),
-                  const SizedBox(height: 6),
-                  _buildColorSelection(controller, colors),
-                  const SizedBox(height: 24),
-
-                  const SizedBox(height: 16),
-                ],
-              ),
+    return DraggableScrollableSheet(
+      initialChildSize: 0.65,
+      minChildSize: 0.65,
+      maxChildSize: 1.0,
+      expand: false,
+      builder: (BuildContext context, ScrollController scrollController) {
+        return Container(
+          decoration: BoxDecoration(
+            color: colors.surface,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(32),
+              topRight: Radius.circular(32),
             ),
           ),
-          Positioned(
-            left: 24,
-            right: 24,
-            bottom: 24,
-            child: _buildAddButton(controller, colors),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: Column(
+                  children: [
+                    SingleChildScrollView(
+                      controller: scrollController,
+                      child: Container(
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        child: _buildDragHandle(colors),
+                      ),
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.only(
+                          left: 24.0,
+                          right: 24.0,
+                          top: 8.0,
+                          bottom: 80.0,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'New Habit',
+                              style: TextStyle(
+                                color: colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+
+                            // 1. Habit Name
+                            _buildSectionTitle('Habit Name', colors),
+                            const SizedBox(height: 6),
+                            _buildNameInput(controller, colors),
+                            const SizedBox(height: 16),
+
+                            // 2. Start Date
+                            _buildSectionTitle('Start Date', colors),
+                            const SizedBox(height: 6),
+                            _buildStartDateSelection(
+                              controller,
+                              context,
+                              colors,
+                            ),
+                            const SizedBox(height: 16),
+
+                            // 3. Goal Duration
+                            _buildSectionTitle('Goal Duration', colors),
+                            const SizedBox(height: 6),
+                            _buildDurationSelection(controller, colors),
+                            const SizedBox(height: 16),
+
+                            // 3. Habit Icon
+                            _buildSectionTitle('Icon', colors),
+                            const SizedBox(height: 6),
+                            _buildIconSelection(controller, colors),
+                            const SizedBox(height: 16),
+
+                            // 4. Habit Color
+                            _buildSectionTitle('Color', colors),
+                            const SizedBox(height: 6),
+                            _buildColorSelection(controller, colors),
+                            const SizedBox(height: 24),
+
+                            const SizedBox(height: 16),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                left: 24,
+                right: 24,
+                bottom: 24,
+                child: _buildAddButton(controller, colors),
+              ),
+            ],
           ),
-        ],
-      ),
-    ),
-  ],
-),
+        );
+      },
     );
   }
 
@@ -143,7 +161,11 @@ class AddHabitBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildStartDateSelection(AddHabitController controller, BuildContext context, AppColors colors) {
+  Widget _buildStartDateSelection(
+    AddHabitController controller,
+    BuildContext context,
+    AppColors colors,
+  ) {
     return GestureDetector(
       onTap: () => controller.pickDate(context),
       child: Container(
@@ -154,7 +176,11 @@ class AddHabitBottomSheet extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(Icons.calendar_today, color: colors.black.withValues(alpha: 0.6), size: 20),
+            Icon(
+              Icons.calendar_today,
+              color: colors.black.withValues(alpha: 0.6),
+              size: 20,
+            ),
             const SizedBox(width: 12),
             Obx(() {
               final date = controller.selectedStartDate.value;
@@ -169,14 +195,21 @@ class AddHabitBottomSheet extends StatelessWidget {
               );
             }),
             const Spacer(),
-            Icon(Icons.chevron_right, color: colors.black.withValues(alpha: 0.4), size: 20),
+            Icon(
+              Icons.chevron_right,
+              color: colors.black.withValues(alpha: 0.4),
+              size: 20,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildDurationSelection(AddHabitController controller, AppColors colors) {
+  Widget _buildDurationSelection(
+    AddHabitController controller,
+    AppColors colors,
+  ) {
     return Obx(() {
       final options = [7, 30, 90];
       return Row(
@@ -190,7 +223,9 @@ class AddHabitBottomSheet extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(horizontal: 4),
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 decoration: BoxDecoration(
-                  color: isSelected ? colors.lightBlue : colors.surfaceHighlight,
+                  color: isSelected
+                      ? colors.lightBlue
+                      : colors.surfaceHighlight,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: isSelected
                       ? [
@@ -198,7 +233,7 @@ class AddHabitBottomSheet extends StatelessWidget {
                             color: colors.lightBlue.withValues(alpha: 0.3),
                             blurRadius: 8,
                             offset: const Offset(0, 4),
-                          )
+                          ),
                         ]
                       : [],
                 ),
@@ -206,7 +241,9 @@ class AddHabitBottomSheet extends StatelessWidget {
                 child: Text(
                   '$duration Days',
                   style: TextStyle(
-                    color: isSelected ? colors.white : colors.black.withValues(alpha: 0.6),
+                    color: isSelected
+                        ? colors.white
+                        : colors.black.withValues(alpha: 0.6),
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
                   ),
