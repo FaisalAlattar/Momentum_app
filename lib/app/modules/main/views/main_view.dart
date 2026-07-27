@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../controllers/main_controller.dart';
 import '../../home/views/home_view.dart';
 import '../../settings/views/settings_view.dart';
+import '../../focus/views/focus_view.dart';
 import '../../../../core/values/app_colors.dart';
 
 class MainView extends GetView<MainController> {
@@ -32,7 +33,7 @@ class MainView extends GetView<MainController> {
               ),
             );
           },
-          child: _getPage(controller.currentIndex.value),
+          child: _getPage(controller.currentIndex.value, colors),
         ),
       ),
       bottomNavigationBar: _buildBottomNavigationBar(colors),
@@ -71,7 +72,17 @@ class MainView extends GetView<MainController> {
                 ),
                 onPressed: () => controller.changePage(1),
               ),
-              const SizedBox(width: 48), // Space for FAB
+              IconButton(
+                tooltip: 'Focus',
+                icon: Icon(
+                  Icons.track_changes,
+                  color: controller.currentIndex.value == 2
+                      ? colors.lightBlue
+                      : colors.textSecondary,
+                  size: 28,
+                ),
+                onPressed: () => controller.changePage(2),
+              ),
               IconButton(
                 icon: Icon(
                   Icons.home_filled,
@@ -115,12 +126,14 @@ class MainView extends GetView<MainController> {
     );
   }
 
-  Widget _getPage(int index) {
+  Widget _getPage(int index, AppColors colors) {
     switch (index) {
       case 0:
         return const HomeView(key: ValueKey('HomeView'));
       case 1:
         return const SettingsView(key: ValueKey('SettingsView'));
+      case 2:
+        return const FocusView(key: ValueKey('FocusView'));
       default:
         return const HomeView(key: ValueKey('HomeView'));
     }

@@ -53,7 +53,7 @@ class AddHabitBottomSheet extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'New Habit',
+                              'New Habit'.tr,
                               style: TextStyle(
                                 color: colors.black,
                                 fontSize: 20,
@@ -63,13 +63,13 @@ class AddHabitBottomSheet extends StatelessWidget {
                             const SizedBox(height: 16),
 
                             // 1. Habit Name
-                            _buildSectionTitle('Habit Name', colors),
+                            _buildSectionTitle('Habit Name'.tr, colors),
                             const SizedBox(height: 6),
                             _buildNameInput(controller, colors),
                             const SizedBox(height: 16),
 
                             // 2. Start Date
-                            _buildSectionTitle('Start Date', colors),
+                            _buildSectionTitle('Start Date'.tr, colors),
                             const SizedBox(height: 6),
                             _buildStartDateSelection(
                               controller,
@@ -79,19 +79,19 @@ class AddHabitBottomSheet extends StatelessWidget {
                             const SizedBox(height: 16),
 
                             // 3. Goal Duration
-                            _buildSectionTitle('Goal Duration', colors),
+                            _buildSectionTitle('Goal Duration'.tr, colors),
                             const SizedBox(height: 6),
                             _buildDurationSelection(controller, colors),
                             const SizedBox(height: 16),
 
                             // 3. Habit Icon
-                            _buildSectionTitle('Icon', colors),
+                            _buildSectionTitle('Icon'.tr, colors),
                             const SizedBox(height: 6),
                             _buildIconSelection(controller, colors),
                             const SizedBox(height: 16),
 
                             // 4. Habit Color
-                            _buildSectionTitle('Color', colors),
+                            _buildSectionTitle('Color'.tr, colors),
                             const SizedBox(height: 6),
                             _buildColorSelection(controller, colors),
                             const SizedBox(height: 24),
@@ -145,7 +145,7 @@ class AddHabitBottomSheet extends StatelessWidget {
       controller: controller.nameController,
       style: TextStyle(color: colors.black, fontSize: 14),
       decoration: InputDecoration(
-        hintText: 'e.g. Read a book',
+        hintText: 'e.g. Read a book'.tr,
         hintStyle: TextStyle(color: colors.black.withValues(alpha: 0.4)),
         filled: true,
         fillColor: colors.surfaceHighlight,
@@ -239,7 +239,7 @@ class AddHabitBottomSheet extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  '$duration Days',
+                  '$duration Days'.tr,
                   style: TextStyle(
                     color: isSelected
                         ? colors.white
@@ -381,8 +381,8 @@ class AddHabitBottomSheet extends StatelessWidget {
           // We let GetX handle the deletion of the controller when the route is fully popped.
         } else {
           Get.snackbar(
-            'Missing Name',
-            'Please enter a habit name.',
+            'Missing Name'.tr,
+            'Please enter a habit name.'.tr,
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: colors.surface,
             colorText: colors.textPrimary,
@@ -406,7 +406,7 @@ class AddHabitBottomSheet extends StatelessWidget {
         ),
         alignment: Alignment.center,
         child: Text(
-          'Add Habit',
+          'Add Habit'.tr,
           style: TextStyle(
             color: colors.white,
             fontSize: 16,
